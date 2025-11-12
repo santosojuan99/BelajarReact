@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<!--Disini kita mencoba menjalankan react tapi tanpa otomatis generate tampilan. Jadi menjalankannya dengan manual. Ini tidak best practices-->
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello React</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <!--Ini nanti id yang dipanggil atau dimasukin code kita-->
+    <script
+      src="https://unpkg.com/react@18/umd/react.development.js"
+      crossorigin
+    ></script>
+    <!--Ini adalah library yang dipanggil untuk menjalankan React-->
+    <script
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <!--Ini adalah library yang dipanggil untuk menjalankan DOM yaitu seperti compiler dari react agar kita dapat melihat hasilnya-->
+
+    <script>
+      function App() {
+        const [time, setTime] = React.useState(new Date().toLocaleTimeString());
+
+        React.useEffect(function () {
+          setInterval(function () {
+            setTime(new Date().toLocaleTimeString());
+          }, 1000); //memberi jarak 1 detik untuk refresh pengambil waktu sekarang
+        }, []);
+        return React.createElement("header", null, `Hello React! It's ${time}`); //kita akan menambahkan header yang berisi tulisan itu
+      }
+
+      const container = document.getElementById("root"); //disini kita menarik atau mentarget element yang ada id "root"
+      const root = ReactDOM.createRoot(container); //disini kita membuat DOM nya untu kyang kita target
+      root.render(React.createElement(App)); //disini kita memanggil fungsi App
+    </script>
+  </body>
+</html>
