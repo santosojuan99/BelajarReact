@@ -275,3 +275,54 @@ const adventureBooks = books
   .filter((book) => book.genres.includes("adventure")) //di filter dulu
   .map((book) => book.title); //lalu di mapping untuk diambil judulnya
 adventureBooks;
+
+//ARRAY REDUCE METHOD
+const pagesAllBooks = books.reduce((sum, book) => sum + book.pages, 0); //reduce itu untuk menggabungkan menjadi 1 value. sum itu adalah variable yang terus bertambah dari book.pages. 0 itu value awalnya.
+pagesAllBooks;
+
+//ARRAY SORT
+const arr = [3, 7, 1, 9, 6];
+const sorted = arr.slice().sort((a, b) => a - b); //sort secara ascending, ini rumus. Slice disitu gunanya untuk mencopy nilai arr secara sementara, kalau ga ada maka nilai arr akan ketimpa dengan pemrosesannya
+sorted;
+arr;
+
+const sortedByPages = books.slice().sort((a, b) => b.pages - a.pages); //sort secara descending, ini rumus
+sortedByPages;
+
+//Imutable Array Add, Delete, Update
+//Tambah Buku
+const newBook = {
+  id: 6,
+  title: "Harry Potter",
+  author: "J. K. Rowling",
+};
+const bookAfterAdd = [...books, newBook]; //tambah dictionary
+bookAfterAdd;
+
+//Delete Buku
+const bookAfterDelete = bookAfterAdd.filter((book) => book.id !== 3); //menghapus yang id nya 3
+bookAfterDelete;
+
+//Update Buku
+const bookAfterUpdate = bookAfterDelete.map((book) =>
+  book.id === 1 ? { ...book, pages: 1210 } : book
+); //update pages book menjadi 1210 kalau id bukunya 1
+bookAfterUpdate;
+
+//CARA BACA API
+// fetch("https://jsonplaceholder.typicode.com/todos") //dalam posisi ini, task yang ada dibawah dapat menyalip pemrosesan ini
+//   .then((res) => res.json()) //ketika data sudah di fetch dari link, maka dirubah ke json
+//   .then((data) => console.log(data)); //data yang sudah dalam berupa json, kita tampilkan di console
+// console.log("jonas");
+async function getTodos() {
+  const res = await fetch("https://jsonplaceholder.typicode.com/todos");
+  const data = await res.json();
+  // console.log(data); //kalau dibawah tidak diberi await, maka ini akan terlewati
+
+  return data;
+}
+
+const todos = await getTodos(); //kalau sudah diberi await, maka akan bergerak secara syncronous.
+console.log(todos);
+
+console.log("jonas");
