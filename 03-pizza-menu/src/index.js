@@ -69,10 +69,24 @@ function Header() {
   );
 }
 function Menu() {
+  const pizzas = pizzaData;
+  // const pizzas = [];
+  const numPizzas = pizzas.length;
   return (
     <main className="menu">
       <h2>Our Menu</h2>
-      <Pizza
+      {numPizzas > 0 ? (
+        <ul className="pizzas">
+          {/*luar ul dalam li*/}
+          {pizzaData.map((pizza) => (
+            <Pizza pizzaObj={pizza} key={pizza.name} /> //key disini itu harus ada, lalu disini key juga harus beda semua yang ditentukan dari variable yang memilki value beda semua di object
+          ))}
+        </ul>
+      ) : (
+        <p>We're still working on our menu. Please come back later :)</p>
+      )}
+      {/*kita tidak dapat menggunakan if diatas karena if tidak didalam return value, tapi kita harus pakai ?: (itenary operator). Ini lebih better dari && karena ada lanjutannya kalau syarat tidak terpenuhi. */}
+      {/* <Pizza
         name="Pizza Spinaci"
         ingredients="Tomato, mozarella, spinach, and ricotta cheese"
         photoName="pizzas/spinaci.jpg"
@@ -83,38 +97,59 @@ function Menu() {
         ingredients="Tomato, mozarella, mushrooms, and onion"
         photoName="pizzas/funghi.jpg"
         price={12}
-      />
+      /> */}
     </main>
   );
 }
 function Pizza(props) {
+  //props disini akan ambil pizzaObj dan key sehingga dibawah harus ada define pizzaObj
   //props untuk menerima input, props itu juga immutable dengan kata lain tidak bisa dirubah
   console.log(props);
+
+  if (props.pizzaObj.soldOut) return null; //ini itu bisa return sendiri karena proses dari Menu memasukkan Pizza itu satu2 dibaca di json dalam map, kalau sudah return disini maka tidak akan return lagi dibawahnya
+
   return (
-    <div className="pizza">
-      <img src={props.photoName} alt={props.name}></img>
+    <li className="pizza">
+      <img src={props.pizzaObj.photoName} alt={props.pizzaObj.name}></img>
       <div>
-        <h3>{props.name}</h3>
-        <p>{props.ingredients}</p>
-        <span>{props.price + 3}</span>
+        <h3>{props.pizzaObj.name}</h3>
+        <p>{props.pizzaObj.ingredients}</p>
+        <span>{props.pizzaObj.price + 3}</span>
       </div>
-    </div>
+    </li>
   );
 }
 function Footer() {
   const hour = new Date().getHours();
   const openHour = 12;
-  const closeHour = 22;
+  const closeHour = 24;
   const isOpen = hour >= openHour && hour <= closeHour;
   console.log(isOpen);
+  console.log(hour);
 
   // if (hour >= openHour && hour <= closeHour) alert("We are currently open!");
   // else alert("Sorry we are closed!");
 
+  // if (!isOpen) return <p>We are closed!</p>;
+
   return (
     <footer className="footer">
-      {new Date().toLocaleTimeString()}. We're currently open
+      {isOpen && <Order closeHour={closeHour} openHour={openHour} />}
+      {/* && disitu layaknya if, kalau true maka dia akan return sampingnya(string, int, dsb kecuali undefined dan false) karena sifat && itu harus true dua2nya*/}
+      {/* kalau di && awalnya sudah false, maka dia tidak akan return apapun karena keduanya harus true, definisi true bisa apa aja asal tidak falsy yaitu undefined atau false*/}
     </footer>
+  );
+}
+function Order({ closeHour, openHour }) {
+  //ini namanya destructuring props yaitu kita tinggal pakai nama argument yang dimasukkan. Nama hyperparameter harus sama dengan nama argumentnya.
+  return (
+    <div className="order">
+      <p>
+        We're open from {openHour}:00 until {closeHour}:00. Come visit us or
+        order online
+      </p>
+      <button className="btn">Order</button>
+    </div>
   );
 }
 
