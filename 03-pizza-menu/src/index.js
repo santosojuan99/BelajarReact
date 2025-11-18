@@ -63,7 +63,7 @@ function Header() {
   // const style = { color: "red", fontSize: "48px", textTransform: "uppercase" };//cara masukin css ke javascript
   const style = {};
   return (
-    <header className="header footer">
+    <header className="header">
       <h1 style={style}>Fast React Pizza Co.</h1>
     </header>
   );
@@ -76,12 +76,15 @@ function Menu() {
     <main className="menu">
       <h2>Our Menu</h2>
       {numPizzas > 0 ? (
-        <ul className="pizzas">
-          {/*luar ul dalam li*/}
-          {pizzaData.map((pizza) => (
-            <Pizza pizzaObj={pizza} key={pizza.name} /> //key disini itu harus ada, lalu disini key juga harus beda semua yang ditentukan dari variable yang memilki value beda semua di object
-          ))}
-        </ul>
+        <>
+          {/*ini namanya react fragment berguna agar return tetap 1 element, meski didalamnya banyak. kalau mau diberi key harus gini <React.Fragment key=''></React.Fragment> */}
+          <ul className="pizzas">
+            {/*luar ul dalam li*/}
+            {pizzaData.map((pizza) => (
+              <Pizza pizzaObj={pizza} key={pizza.name} /> //key disini itu harus ada, lalu disini key juga harus beda semua yang ditentukan dari variable yang memilki value beda semua di object
+            ))}
+          </ul>
+        </>
       ) : (
         <p>We're still working on our menu. Please come back later :)</p>
       )}
@@ -109,12 +112,14 @@ function Pizza(props) {
   if (props.pizzaObj.soldOut) return null; //ini itu bisa return sendiri karena proses dari Menu memasukkan Pizza itu satu2 dibaca di json dalam map, kalau sudah return disini maka tidak akan return lagi dibawahnya
 
   return (
-    <li className="pizza">
+    <li className={`pizza ${props.pizzaObj.soldOut ? "sold-out" : ""}`}>
       <img src={props.pizzaObj.photoName} alt={props.pizzaObj.name}></img>
       <div>
         <h3>{props.pizzaObj.name}</h3>
         <p>{props.pizzaObj.ingredients}</p>
-        <span>{props.pizzaObj.price + 3}</span>
+        <span>
+          {props.pizzaObj.soldOut ? "SOLD OUT" : props.pizzaObj.price}
+        </span>
       </div>
     </li>
   );
