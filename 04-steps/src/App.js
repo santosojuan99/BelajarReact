@@ -1,12 +1,20 @@
 import { useState } from "react";
-
+export default function App() {
+  return (
+    <div>
+      <Steps />
+      <Steps />
+      {/*ketika kita memiliki 2 component yang berbeda, mereka tidak akan saling terhubung meski functionnya sama */}
+    </div>
+  );
+}
 const messages = [
   "Learn React ⚛️",
   "Apply for jobs 💼",
   "Invest your new income 🤑",
 ];
 
-export default function App() {
+function Steps() {
   const [step, setStep] = useState(1); //state ini jangan ditaruk didalam function atau if karena itu hanya akan berlaku didalam if atau function itu saja. Kalau ditaruk luar, dia bisa bersifat lebih global
   // const [test, setTest] = useState({ name: "Juan" });
   const [isOpen, setIsOpen] = useState(true);
@@ -26,7 +34,7 @@ export default function App() {
     // setTest({ name: "David" });
   }
   return (
-    <>
+    <div>
       <button className="close" onClick={() => setIsOpen(!isOpen)}>
         &times;
       </button>
@@ -59,6 +67,6 @@ export default function App() {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }
