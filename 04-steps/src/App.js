@@ -33,6 +33,7 @@ function Steps() {
     //GOOD PRACTICE
     // setTest({ name: "David" });
   }
+
   return (
     <div>
       <button className="close" onClick={() => setIsOpen(!isOpen)}>
@@ -45,28 +46,50 @@ function Steps() {
             <div className={`${step >= 2 ? "active" : ""}`}>2</div>
             <div className={`${step >= 3 ? "active" : ""}`}>3</div>
           </div>
-
-          <p className="message">
-            a Step {step}: {messages[step - 1]}
-            {/* {test.name} */}
-          </p>
+          <StepMessage step={step}>
+            {messages[step - 1]}
+            <div className="buttons">
+              <Button
+                bgColor="#e7e7e7"
+                textColor="#333"
+                onClick={() => alert(`Learn how to ${messages[step - 1]}`)}
+              >
+                Learn how
+              </Button>
+            </div>
+          </StepMessage>
 
           <div className="buttons">
-            <button
-              style={{ backgroundColor: "#7950f2", color: "#fff" }}
-              onClick={onPrevious}
-            >
-              Previous
-            </button>
-            <button
-              style={{ backgroundColor: "#7950f2", color: "#fff" }}
-              onClick={onNext}
-            >
-              Next
-            </button>
+            <Button bgColor="#7950f2" textColor="#fff" onClick={onPrevious}>
+              👈<span>Previous</span>
+            </Button>
+            <Button bgColor="#7950f2" textColor="#fff" onClick={onNext}>
+              <span>Next</span>👉
+              {/*children itu mengambil bagian ini, ketika function dipanggil */}
+            </Button>
           </div>
         </div>
       )}
     </div>
   );
+  function Button({ bgColor, textColor, onClick, children }) {
+    //button disini itu mengambil segala sesuatu yang ada antara element buka dan tutup diatas
+    return (
+      <button
+        style={{ backgroundColor: bgColor, color: textColor }}
+        onClick={onClick}
+      >
+        {children}
+      </button>
+    );
+  }
+  function StepMessage({ step, children }) {
+    //nama function harus diawali dengan huruf besar
+    return (
+      <div class="message">
+        <h3>Step {step}:</h3>
+        {children}
+      </div>
+    );
+  }
 }
